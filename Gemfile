@@ -8,3 +8,6 @@ gem 'compass'
 gem 'coffee-script'
 gem 'tweetstream'
 gem 'pusher'
+gem 'google-api-client'
+gem 'rest-client'
+
