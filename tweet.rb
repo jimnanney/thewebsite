@@ -71,13 +71,14 @@ class Tweet
 
 
       blob = tweet.getImage
-
-      S3.upload blob, "#{tweet.tweet_id}.jpg", :content_type => 'application/jpg'
+      key = "#{tweet.tweet_id}.jpg"
+      S3.upload blob, key, :content_type => 'application/jpg'
 
       tweet.user_id       = status.user.attrs[:id_str]
       tweet.user_nickname = status.user.attrs[:screen_name]
       tweet.user_name     = status.user.attrs[:name]
       tweet.user_image    = status.user.profile_image_url if status.user.profile_image_url?
+      tweet.meme          = key
 
       tweet.save!
       tweet.push
