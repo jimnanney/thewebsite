@@ -14,7 +14,7 @@ class ImageSearcher
   end
 
   def search_for_images(query)
-    args = { q: query, safe: 'active', v: '1.0', rsz: '8', imgsz: 'large|xlarge' }
+    args = { q: query, safe: 'active', v: '1.0', rsz: '8', imgsz: 'large|xlarge', as_filetype: 'jpg' }
     response = RestClient.get  'http://ajax.googleapis.com/ajax/services/search/images', params: args
     case response.code
     when 200
