@@ -4,6 +4,8 @@ require 'data_mapper'
 require 'pusher'
 require 'carrierwave'
 require 'carrierwave/datamapper'
+require './rest-client'
+require './string_splitter'
 
 # DataMapper
 DataMapper.setup(:default, (ENV["DATABASE_URL"] || "sqlite3:///#{ Dir.pwd }/development.sqlite3"))
