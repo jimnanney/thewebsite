@@ -2,10 +2,6 @@ GEM
   remote: http://rubygems.org/
   specs:
     addressable (2.3.2)
-    autoparse (0.3.3)
-      addressable (>= 2.3.1)
-      extlib (>= 0.9.15)
-      multi_json (>= 1.0.0)
     backports (3.3.3)
     chunky_png (1.2.8)
     coffee-script (2.2.0)
@@ -33,20 +29,9 @@ GEM
     eventmachine (1.0.3)
     execjs (1.4.0)
       multi_json (~> 1.0)
-    extlib (0.9.16)
     faraday (0.8.7)
       multipart-post (~> 1.1)
     fssm (0.2.10)
-    google-api-client (0.6.4)
-      addressable (>= 2.3.2)
-      autoparse (>= 0.3.3)
-      extlib (>= 0.9.15)
-      faraday (~> 0.8.4)
-      jwt (>= 0.1.5)
-      launchy (>= 2.1.1)
-      multi_json (>= 1.0.0)
-      signet (~> 0.4.5)
-      uuidtools (>= 2.1.0)
     haml (4.0.3)
       tilt
     http_parser.rb (0.5.3)
@@ -75,11 +60,6 @@ GEM
     shotgun (0.9)
       rack (>= 1.0)
     signature (0.1.7)
-    signet (0.4.5)
-      addressable (>= 2.2.3)
-      faraday (~> 0.8.1)
-      jwt (>= 0.1.5)
-      multi_json (>= 1.0.0)
     simple_oauth (0.2.0)
     sinatra (1.4.3)
       rack (~> 1.4)
@@ -103,7 +83,6 @@ GEM
       faraday (~> 0.8, < 0.10)
       multi_json (~> 1.0)
       simple_oauth (~> 0.2)
-    uuidtools (2.1.4)
     yajl-ruby (1.1.0)
 
 PLATFORMS
@@ -112,7 +91,6 @@ PLATFORMS
 DEPENDENCIES
   coffee-script
   compass
-  google-api-client
   haml
   meme_captain
   pusher
