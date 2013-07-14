@@ -50,16 +50,13 @@ GEM
     haml (4.0.3)
       tilt
     http_parser.rb (0.5.3)
-<<<<<<< HEAD
     meme_captain (0.3.0)
       mime-types
       rmagick
-=======
     jwt (0.1.8)
       multi_json (>= 1.5)
     launchy (2.3.0)
       addressable (~> 2.3)
->>>>>>> master
     mime-types (1.23)
     multi_json (1.7.7)
     multipart-post (1.2.0)
@@ -71,12 +68,9 @@ GEM
       rack
     rack-test (0.6.2)
       rack (>= 1.0)
-<<<<<<< HEAD
     rmagick (2.13.2)
-=======
     rest-client (1.6.7)
       mime-types (>= 1.16)
->>>>>>> master
     sass (3.2.9)
     shotgun (0.9)
       rack (>= 1.0)
