@@ -19,14 +19,14 @@ class ImageSearcher
     case response.code
     when 200
         json = JSON.parse(response.to_str) 
-        json['responseData']['results']
+        json['responseData']['results'].shuffle
     else
         []
     end
   end
 
   def url_for_image(result = [])
-    result.empty? ? default_image_url : result.sample['url'] 
+    result.empty? ? default_image_url : result.shift['url'] 
   end
 
 end
