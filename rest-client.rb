@@ -10,7 +10,7 @@ class ImageSearcher
   end
 
   def default_image_url
-    'http://www.google.com/'
+    'http://onlyinnola.tw/images/default.jpg'
   end
 
   def search_for_images(query)
