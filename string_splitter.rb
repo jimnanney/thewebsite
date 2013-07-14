@@ -14,12 +14,13 @@ class StringSplitter
 
   def image_search_text(text)
     text = no_hashes(text)
+    text = no_ats(text)
     text = add_new_orleans(text)
   end
 
   def add_new_orleans(text)
     if text.scan(/new orleans|nola/i).empty?
-      "#{text} New Orleans" 
+      "New Orleans #{text}" 
     else
       text
     end

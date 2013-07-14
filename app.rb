@@ -8,6 +8,7 @@ require 'coffee-script'
 require 'open-uri'
 require 'meme_captain'
 require './rest-client'
+require './string_splitter'
 
 configure do
   Compass.configuration do |config|
@@ -30,7 +31,10 @@ get '/meme.jpg::copy' do
 	content_type 'image/jpg'
 
   searcher = ImageSearcher.new()
-  searcher.search(params[:copy].split(' '))
+  splitter = StringSplitter.new()
+
+  imageQuery = splitter.image_search_text(params[:copy])
+  searcher.search(imageQuery.split(' '))
 
   puts searcher.url
   file = nil
@@ -42,13 +46,11 @@ get '/meme.jpg::copy' do
     rescue StandardError
     end
   end
-  i = MemeCaptain.meme_top_bottom(file, params[:copy], nil)
+
+  memeText = splitter.no_hashes(params[:copy])
+  i = MemeCaptain.meme_top_bottom(file, splitter.left(memeText), splitter.right(memeText))
   i.to_blob
   
-  open(searcher.url, 'rb') do |f|
-		i = MemeCaptain.meme_top_bottom(f, params[:copy], nil)
-  	i.to_blob
-	end
 end
 
 get '/app.css' do
