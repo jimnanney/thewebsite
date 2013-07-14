@@ -54,7 +54,7 @@ get '/meme.jpg::copy' do
 end
 
 get '/app.css' do
-  sass :app
+  scss :app
 end
 
 get '/app.js' do
