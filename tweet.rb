@@ -96,12 +96,12 @@ class Tweet
       done = false
       while !done
         begin
-          file = open(searcher.url, 'rb')
+          file = open(searcher.url_for_image, 'rb')
           done = true
         rescue StandardError
         end
       end
-
+    
       memeText = splitter.no_hashes(text)
       i = MemeCaptain.meme_top_bottom(file, splitter.left(memeText), splitter.right(memeText))
       i.to_blob

@@ -36,16 +36,17 @@ get '/meme.jpg::copy' do
   imageQuery = splitter.image_search_text(params[:copy])
   searcher.search(imageQuery.split(' '))
 
-  puts searcher.url
   file = nil
   done = false
   while !done
     begin
-      file = open(searcher.url, 'rb')
+      file = open(searcher.url_for_image, 'rb')
       done = true
     rescue StandardError
     end
   end
+  puts searcher.url
+
 
   memeText = splitter.no_hashes(params[:copy])
   i = MemeCaptain.meme_top_bottom(file, splitter.left(memeText), splitter.right(memeText))

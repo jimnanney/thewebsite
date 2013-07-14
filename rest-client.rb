@@ -3,10 +3,11 @@ require 'json'
 
 class ImageSearcher
   attr_accessor :url
+  attr_accessor :images
 
   def search(search_query)
-    images = search_for_images(search_query)
-    @url = url_for_image(images)
+    @images = search_for_images(search_query)
+    @url = url_for_image()
   end
 
   def default_image_url
@@ -25,8 +26,8 @@ class ImageSearcher
     end
   end
 
-  def url_for_image(result = [])
-    result.empty? ? default_image_url : result.shift['url'] 
+  def url_for_image()
+    @images.empty? ? default_image_url : @images.shift['url'] 
   end
 
 end
