@@ -16,6 +16,10 @@
     %script(src="http://js.pusher.com/2.1/pusher.min.js")
     %script(src="/app.js")
 
+    %script(src="//use.typekit.net/fqy5zig.js")
+    :javascript
+        try{Typekit.load();}catch(e){}
+
     %link(href="/app.css" rel="stylesheet")
   %body
     = yield
