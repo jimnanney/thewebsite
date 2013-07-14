@@ -1,14 +1,19 @@
-
-
-%ul#tweets
-	%li.meme
-		%figure
-			/meme image
-			%img
-			%figcaption.social
-				%ul
-					%li
-						%a{:href=>"THE LINK THING"} Reddit
-					%li
-						%a{:href=>"PERMALINK"} Link to this
-
+%header
+	%h1 Only in NOLA
+.container
+	%ul#tweets
+		- 10.times do | tweet |
+			%li.meme
+				%figure
+					/meme image
+					%img{:src=>"http://hhhhold.com/768x768"}
+					%figcaption.social
+						%ul
+							%li
+								%a{:href=>"TheLinkThing"} Reddit
+							%li
+								%a{:href=>"TWEETLINK"} The Original Tweet
+							%li
+								%a{:href=>"PERMALINK"} Link to this
+%footer 
+	.copyright &copy; 2013 Barcamp NOLA
