@@ -5,6 +5,8 @@ require 'pusher'
 require 'carrierwave'
 require 'carrierwave/datamapper'
 require './s3'
+require './rest-client'
+require './string_splitter'
 
 # DataMapper
 DataMapper.setup(:default, (ENV["DATABASE_URL"] || "sqlite3:///#{ Dir.pwd }/development.sqlite3"))
@@ -98,7 +100,7 @@ class Tweet
       done = false
       while !done
         begin
-          file = open(searcher.url, 'rb')
+          file = open(searcher.url_for_image, 'rb')
           done = true
         rescue StandardError
         end

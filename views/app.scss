@@ -395,8 +395,6 @@ table {
     border-spacing: 0;
 }
 
-
-
 //variables
 $primary: #0cc;
 $white: #fff;
@@ -405,9 +403,38 @@ $black: #000;
 body{
 	color: $black;
 }
+
+header{
+	height:50px;
+	h1{
+		position: fixed;
+		margin-bottom: 10px;
+		margin-left: 50px; 
+	}
+}
+footer{
+	height:50px;
+	.copyright{
+		position: fixed;
+		margin-bottom: 10px;
+		margin-left: 50px; 
+	}
+}
+
+a{
+	text-decoration: none;
+	color: $primary;
+	&:hover{
+		border-bottom: 1px dashed $primary;
+	}
+}
+
 .container{
-	width: 8000px;
-	height: 800px;
+	width: 9000px;
+	max-height: 900px;
+	background: $black;
+	color: $white;
+	margin-top: 50px;
 }
 
 ul{
@@ -415,15 +442,49 @@ ul{
 }
 
 .meme{
-	width: 500;
-	height: 500;
+	border: 10px solid $white;
+	box-shadow: inset 0 0 3px $black;
+	margin: 40px;
 	display: inline-block;
 	figure{
-		max-width: 768;
+		overflow: hidden;
+		margin: 0;
+	    position: relative;
+	    figcaption{
+			position: absolute;
+		    top: 0;
+		    left: 0;
+		    padding: 20px;
+		    background: $white;
+		    color: $black;
+		    height: 100px;
+		    width: 100%;
+		    top: auto;
+		    bottom: 0;
+		    opacity: 0;
+		    transform: translateY(100%);
+		    transition: transform 0.4s, opacity 0.1s 0.3s;
+		    ul{
+		    	line-height: 1.3em;
+		    }
+		}
+		img{
+			max-height: 400px;
+			height: auto;
+			transition: transform 0.4s;
+		}
+		&:hover{
+			img{
+				margin: 0;
+			    position: relative;
+				transform: translateY(-50px);
+			}
+			figcaption{
+				opacity: 1;
+			    transform: translateY(0px);
+			    transition: transform 0.4s, opacity 0.1s;
+			}
+		}
 	}
-	img{
-		max-width: 100%;
-		height: auto;
-	}
+	
 }
-
