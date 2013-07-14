@@ -20,7 +20,6 @@ end.on_limit do |skip_count|
   puts "limit: #{ skip_count }"
 end.track("#onlyinnola") do |status, client|
   puts status.inspect
-
   Pusher.url = "http://ae645a2445d2f72cf3d4:8bbbadfd263a77086494@api.pusherapp.com/apps/49431"
 	Pusher['twitter'].trigger('tweet', status.attrs.to_json)
 end
