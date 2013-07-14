@@ -4,9 +4,11 @@ require 'data_mapper'
 require 'pusher'
 require 'carrierwave'
 require 'carrierwave/datamapper'
+require 'ostruct'
 require './s3'
 require './rest-client'
 require './string_splitter'
+require 'meme_captain'
 
 # DataMapper
 DataMapper.setup(:default, (ENV["DATABASE_URL"] || "sqlite3:///#{ Dir.pwd }/development.sqlite3"))
@@ -68,8 +70,9 @@ class Tweet
       tweet.text = status.attrs[:text]
 
 
-      tweet.getImage
-      # tweet.meme = "http://i0.kym-cdn.com/photos/images/newsfeed/000/227/262/a%20meme.jpg"
+      blob = tweet.getImage
+
+      S3.upload blob, "#{tweet.tweet_id}.jpg", :content_type => 'application/jpg'
 
       tweet.user_id       = status.user.attrs[:id_str]
       tweet.user_nickname = status.user.attrs[:screen_name]
@@ -110,4 +113,19 @@ class Tweet
       i = MemeCaptain.meme_top_bottom(file, splitter.left(memeText), splitter.right(memeText))
       i.to_blob
   end
+
+  def self.test
+    tweet = OpenStruct.new
+    hash = JSON.parse(IO.read('./tweet.json'))
+
+    hash.keys.each do |k|
+      puts k
+      hash[k.to_sym] = hash[k]
+    end
+
+    tweet.attrs = hash
+    Tweet.from_twitter tweet
+  end
 end
+
+DataMapper.finalize

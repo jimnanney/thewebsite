@@ -1,11 +1,13 @@
 class StringSplitter
 
   def left(text)
-    text.slice(0..(midpoint(text)))
+    puts text
+    puts midpoint(text)
+    midpoint(text) ? text.slice(0..(midpoint(text))) : text
   end
 
   def right(text)
-    text.slice((midpoint(text)+1)..-1)
+    midpoint(text) ? text.slice((midpoint(text)+1)..-1) : ''
   end
 
   def midpoint(text)
@@ -20,7 +22,7 @@ class StringSplitter
 
   def add_new_orleans(text)
     if text.scan(/new orleans|nola/i).empty?
-      "'New Orleans' #{text}" 
+      "'New Orleans' #{text}"
     else
       text
     end
