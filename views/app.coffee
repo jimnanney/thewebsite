@@ -3,4 +3,4 @@ $ ->
 	channel = pusher.subscribe('twitter')
 	channel.bind 'tweet', (data) ->
 		console.log data
-		$("#tweets").append data.text
+		$("#tweets").prepend data.text
