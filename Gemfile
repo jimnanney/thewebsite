@@ -9,3 +9,6 @@ gem 'coffee-script'
 gem 'shotgun'
 gem 'tweetstream'
 gem 'pusher'
+gem 'google-api-client'
+gem 'rest-client'
+
