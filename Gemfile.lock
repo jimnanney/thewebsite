@@ -50,6 +50,9 @@ GEM
     haml (4.0.3)
       tilt
     http_parser.rb (0.5.3)
+    meme_captain (0.3.0)
+      mime-types
+      rmagick
     jwt (0.1.8)
       multi_json (>= 1.5)
     launchy (2.3.0)
@@ -65,6 +68,7 @@ GEM
       rack
     rack-test (0.6.2)
       rack (>= 1.0)
+    rmagick (2.13.2)
     rest-client (1.6.7)
       mime-types (>= 1.16)
     sass (3.2.9)
@@ -110,6 +114,7 @@ DEPENDENCIES
   compass
   google-api-client
   haml
+  meme_captain
   pusher
   rest-client
   sass
