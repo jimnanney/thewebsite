@@ -5,6 +5,7 @@ require 'haml'
 require 'sass'
 require 'compass'
 require 'coffee-script'
+require 'meme_captain'
 
 configure do
   Compass.configuration do |config|
