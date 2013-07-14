@@ -46,6 +46,8 @@ GEM
     rack-test (0.6.2)
       rack (>= 1.0)
     sass (3.2.9)
+    shotgun (0.9)
+      rack (>= 1.0)
     signature (0.1.7)
     simple_oauth (0.2.0)
     sinatra (1.4.3)
@@ -81,6 +83,7 @@ DEPENDENCIES
   haml
   pusher
   sass
+  shotgun
   sinatra
   sinatra-contrib
   tweetstream
