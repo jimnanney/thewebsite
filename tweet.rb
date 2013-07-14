@@ -62,11 +62,10 @@ class Tweet
   	first_or_create({tweet_id: status.attrs[:id_str]}).tap do |tweet|
 			tweet.text = status.attrs[:text]
 
-			# 1. keyword search
-			# 2. image search
-			# 3. meme generation
-
-			# tweet.meme = "http://i0.kym-cdn.com/photos/images/newsfeed/000/227/262/a%20meme.jpg"
+			
+      tweet.getImage
+      # tweet.meme = "http://i0.kym-cdn.com/photos/images/newsfeed/000/227/262/a%20meme.jpg"
+			
 
 			tweet.user_id       = status.user.attrs[:id_str]
 			tweet.user_nickname = status.user.attrs[:screen_name]
@@ -81,5 +80,30 @@ class Tweet
   # Push Tweet
   def push
 		Pusher['twitter'].trigger('tweet', self.to_json)
+  end
+
+  def getImage
+      text = self.text
+
+      searcher = ImageSearcher.new()
+      splitter = StringSplitter.new()
+
+      imageQuery = splitter.image_search_text(text)
+      searcher.search(imageQuery.split(' '))
+
+      puts searcher.url
+      file = nil
+      done = false
+      while !done
+        begin
+          file = open(searcher.url, 'rb')
+          done = true
+        rescue StandardError
+        end
+      end
+
+      memeText = splitter.no_hashes(text)
+      i = MemeCaptain.meme_top_bottom(file, splitter.left(memeText), splitter.right(memeText))
+      i.to_blob
   end
 end
