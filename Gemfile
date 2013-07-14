@@ -9,6 +9,7 @@ gem 'coffee-script'
 gem 'shotgun'
 gem 'tweetstream'
 gem 'pusher'
+gem 'aws-sdk'
 
 # meme generator
 gem 'meme_captain'
