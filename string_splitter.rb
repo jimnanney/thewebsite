@@ -1,8 +1,6 @@
 class StringSplitter
 
   def left(text)
-    puts text
-    puts midpoint(text)
     midpoint(text) ? text.slice(0..(midpoint(text))) : text
   end
 
@@ -39,7 +37,10 @@ end
 
 if __FILE__ == $0
   mytext = "This text needs to split on a space boundary #bearcamp /cc @bearcamp"
+  nospaces = "1234567890NoSpaces_In_This_String"
   splitter = StringSplitter.new()
+  puts splitter.left(nospaces)
+  puts splitter.right(nospaces)
   puts splitter.left(mytext)
   puts splitter.right(mytext)
   puts splitter.no_hashes(mytext)
