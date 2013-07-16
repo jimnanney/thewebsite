@@ -35,6 +35,10 @@ class Tweet < OpenStruct
     @redis ||= Redis.connect :url => ENV['REDISTOGO_URL']
   end
 
+  def to_json
+    { :text => self.text }.to_json
+  end
+
   # Push Tweet
   def push
     ret = Pusher['twitter'].trigger('tweet', self.to_json)
