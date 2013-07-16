@@ -1,4 +1,4 @@
-require 'rubygems'
+require 'bundler/setup'
 require 'sinatra'
 require 'sinatra/reloader' if development?
 require 'haml'
@@ -20,7 +20,7 @@ configure do
 end
 
 get '/' do
-	redirect '/eets'
+  redirect '/eets'
 end
 
 get '/eets' do
@@ -28,7 +28,7 @@ get '/eets' do
 end
 
 get '/meme.jpg::copy' do
-	content_type 'image/jpg'
+  content_type 'image/jpg'
 
   searcher = ImageSearcher.new()
   splitter = StringSplitter.new()
@@ -51,7 +51,7 @@ get '/meme.jpg::copy' do
   memeText = splitter.no_hashes(params[:copy])
   i = MemeCaptain.meme_top_bottom(file, splitter.left(memeText), splitter.right(memeText))
   i.to_blob
-  
+
 end
 
 get '/app.css' do
