@@ -5,10 +5,10 @@ require 'tweetstream'
 require './tweet.rb'
 
 TweetStream.configure do |config|
-  config.consumer_key       = "F61EGNAPP8rNVs9bG0H1Q"
-  config.consumer_secret    = "NsmCehsSKrFpnliwPNBXAtOv572xoCalbYpgt5zE"
-  config.oauth_token        = "12920142-L2HCzlIok7B6SLjl0eD0WC79PCQY0FUYiGhGU0Sff"
-  config.oauth_token_secret = "M4kidamsEWqXBXJ9eldHXcwZ0Hk1JVix4ZMxJC5EJ0"
+  config.consumer_key       = ENV['TWITTER_CONSUMER_KEY']
+  config.consumer_secret    = ENV['TWITTER_CONSUMER_SECRET']
+  config.oauth_token        = ENV['TWITTER_OAUTH_TOKEN']
+  config.oauth_token_secret = ENV['TWITTER_OAUTH_TOKEN_SECRET']
   config.auth_method        = :oauth
 end
 

@@ -15,7 +15,7 @@ DataMapper.setup(:default, (ENV["DATABASE_URL"] || "sqlite3:///#{ Dir.pwd }/deve
 DataMapper.auto_upgrade!
 
 # Pusher
-Pusher.url = "http://ae645a2445d2f72cf3d4:8bbbadfd263a77086494@api.pusherapp.com/apps/49431"
+Pusher.url = ENV['PUSHER_URL']
 
 # CarrierWave
 CarrierWave.configure do |config|
