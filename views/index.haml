@@ -1,20 +1,20 @@
 %header
-	%h1 
-		%img{:src=>"images/logo.png"}
+  %h1 
+    %img{:src=>"images/logo.png"}
 .container
-	%ul#tweets
-		- 10.times do | tweet |
-			%li.meme
-				%figure
-					/meme image
-					%img{:src=>"http://onlyinnola.tw/meme.jpg:Hackathon%20is%20so%20fing%20cool%20yall%20barcampnola"}
-					%figcaption.social
-						%ul
-							%li
-								%a{:href=>"TheLinkThing"} Reddit
-							%li
-								%a{:href=>"TWEETLINK"} The Original Tweet
-							%li
-								%a{:href=>"PERMALINK"} Link to this
+  %ul#tweets
+    - @tweets.each do | tweet |
+      %li.meme
+        %figure
+          /meme image
+          %img{:src=>"#{asset tweet}.jpg"}
+          %figcaption.social
+            %ul
+              %li
+                %a{:href=>"TheLinkThing"} Reddit
+              %li
+                %a{:href=>"TWEETLINK"} The Original Tweet
+              %li
+                %a{:href=>"PERMALINK"} Link to this
 %footer 
-	.copyright &copy; 2013 Barcamp NOLA
+  .copyright &copy; 2013 Barcamp NOLA

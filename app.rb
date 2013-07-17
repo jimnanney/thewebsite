@@ -1,7 +1,9 @@
+require './.env'
 require 'bundler/setup'
 require 'sinatra'
 require 'sinatra/reloader' if development?
 require 'haml'
+require 'redis'
 require 'sass'
 require 'compass'
 require 'coffee-script'
@@ -19,11 +21,24 @@ configure do
   set :sass, Compass.sass_engine_options
 end
 
+helpers do
+  def redis
+    @redis ||= Redis.connect :url => ENV['REDISTOGO_URL']
+  end
+
+  def asset(path)
+    ENV['ASSET_HOST'] + "/" + path
+  end
+end
+
+
+
 get '/' do
   redirect '/eets'
 end
 
 get '/eets' do
+  @tweets = redis.lrange "nolatw:tweets", 0, 10
   haml :index
 end
 
