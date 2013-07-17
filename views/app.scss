@@ -402,18 +402,23 @@ $black: #000;
 
 body{
 	color: $black;
+  font-size: 16px;
 }
 
 header{
-	height:50px;
+  background: $white;
+  z-index: 999;
+	height:3.2em;
+  position: fixed;
+  top:0;
+  left:0;
+  width: 100%;
 	h1{
-		position: fixed;
-		margin-bottom: 10px;
-		margin-left: 50px; 
+    
 	}
 }
 footer{
-	height:50px;
+	height:10%;
 	.copyright{
 		position: fixed;
 		margin-bottom: 10px;
@@ -431,10 +436,10 @@ a{
 
 .container{
 	width: 5200px;
-	max-height: 900px;
+	max-height: 80%;
 	background: $black;
 	color: $white;
-	margin-top: 50px;
+	margin-top: 10%;
 }
 
 ul{
