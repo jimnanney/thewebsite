@@ -1,96 +1,73 @@
+require './.env' unless ENV['RACK_ENV'] == 'production'
 require 'rubygems'
 require 'bundler/setup'
-require 'data_mapper'
+require 'redis'
 require 'pusher'
-require 'carrierwave'
-require 'carrierwave/datamapper'
 require 'ostruct'
 require './s3'
 require './rest-client'
 require './string_splitter'
 require 'meme_captain'
-
-# DataMapper
-DataMapper.setup(:default, (ENV["DATABASE_URL"] || "sqlite3:///#{ Dir.pwd }/development.sqlite3"))
-DataMapper.auto_upgrade!
+require 'open-uri'
 
 # Pusher
-Pusher.url = "http://ae645a2445d2f72cf3d4:8bbbadfd263a77086494@api.pusherapp.com/apps/49431"
-
-# CarrierWave
-CarrierWave.configure do |config|
-  # config.fog_credentials = {
-  #   provider: 'AWS',
-  #   aws_access_key_id: ENV["AWS_ACCESS_KEY_ID"],
-  #   aws_secret_access_key: ENV["AWS_SECRET_ACCESS_KEY"],
-  #   endpoint: ENV["ASSET_HOST"]
-  # }
-
-  # config.fog_directory = ENV["S3_BUCKET"]
-  # config.storage :fog
-
-  # if settings.environment == :production
-  #   config.storage :fog
-  # else
-  #   config.storage :file
-  # end
-end
-
-# Meme Uploader
-class MemeUploader < CarrierWave::Uploader::Base
-  # storage :fog
-
-  # def store_dir
-  #   "uploads/memes/#{ model.id }"
-  # end
-end
+Pusher.url = ENV['PUSHER_URL']
 
 # Tweet Model
-class Tweet
-  include DataMapper::Resource
-
-  property :id, Serial
-  property :tweet_id, String, length: 255
-  property :text, Text
-  property :keyword, String, length: 255
-  property :url, String, length: 255
-
-  property :user_id, String, length: 255
-  property :user_nickname, String, length: 255
-  property :user_name, String, length: 255
-  property :user_image, String, length: 255
-
-  property :meme, String, length: 255
-
-  # mount_uploader :meme, MemeUploader
-
+class Tweet < OpenStruct
   # From Twitter
   def self.from_twitter(status)
-    first_or_create({tweet_id: status.attrs[:id_str]}).tap do |tweet|
-      tweet.text = status.attrs[:text]
+    new.tap do |tweet|
+      tweet.text       = status.attrs[:text]
+      tweet.tweet_id   = status.attrs[:id]
 
+      tweet.upload_image(tweet.get_image)
 
-      blob = tweet.getImage
-      key = "#{tweet.tweet_id}.jpg"
-      S3.upload blob, key, :content_type => 'application/jpg'
+      tweet.push_to_redis
 
-      tweet.user_id       = status.user.attrs[:id_str]
-      tweet.user_nickname = status.user.attrs[:screen_name]
-      tweet.user_name     = status.user.attrs[:name]
-      tweet.user_image    = status.user.profile_image_url if status.user.profile_image_url?
-      tweet.meme          = key
+      #tweet.user_id       = status.user.attrs[:id_str]
+      #tweet.user_nickname = status.user.attrs[:screen_name]
+      #tweet.user_name     = status.user.attrs[:name]
+      #tweet.user_image    = status.user.profile_image_url if status.user.profile_image_url?
+      #tweet.meme          = key
 
-      tweet.save!
       tweet.push
     end
   end
 
-  # Push Tweet
-  def push
-    Pusher['twitter'].trigger('tweet', self.to_json)
+  def redis
+    @redis ||= Redis.connect :url => ENV['REDISTOGO_URL']
   end
 
-  def getImage
+  def push_to_redis
+    redis.lpush list_key, self.tweet_id
+    redis.ltrim list_key, 0, 999
+    p redis.lrange list_key, 0, 10
+  end
+
+  def list_key
+    "nolatw:tweets"
+  end
+
+  def to_json
+    { :id => self.tweet_id, :text => self.text }.to_json
+  end
+
+  # Push Tweet
+  def push
+    ret = Pusher['twitter'].trigger('tweet', self.to_json)
+    puts "pushed"
+    ret
+  end
+
+  def upload_image(blob)
+    key = "#{tweet_id}.jpg"
+    ret = S3.upload blob, key, :content_type => 'application/jpg'
+    puts "uploaded"
+    ret
+  end
+
+  def get_image
       text = self.text
 
       searcher = ImageSearcher.new()
@@ -112,6 +89,7 @@ class Tweet
 
       memeText = splitter.no_hashes(text)
       i = MemeCaptain.meme_top_bottom(file, splitter.left(memeText), splitter.right(memeText))
+      puts "image created"
       i.to_blob
   end
 
@@ -120,7 +98,6 @@ class Tweet
     hash = JSON.parse(IO.read('./tweet.json'))
 
     hash.keys.each do |k|
-      puts k
       hash[k.to_sym] = hash[k]
     end
 
@@ -128,5 +105,3 @@ class Tweet
     Tweet.from_twitter tweet
   end
 end
-
-DataMapper.finalize

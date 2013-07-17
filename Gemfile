@@ -10,23 +10,10 @@ gem 'shotgun'
 gem 'tweetstream'
 gem 'pusher'
 gem 'aws-sdk'
+gem 'redis'
 
 # meme generator
 gem 'meme_captain'
 
 # google image search
 gem 'rest-client'
-
-# data
-gem 'data_mapper', '~> 1.2.0'
-gem 'carrierwave'
-gem 'carrierwave-datamapper', :require => 'carrierwave/datamapper'
-gem 'fog'
-
-group :development do
-  gem 'dm-sqlite-adapter'
-end
-
-group :production do
-  gem 'dm-postgres-adapter'
-end
