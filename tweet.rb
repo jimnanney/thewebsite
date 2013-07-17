@@ -1,6 +1,7 @@
 require './.env' unless ENV['RACK_ENV'] == 'production'
 require 'rubygems'
 require 'bundler/setup'
+require 'redis'
 require 'pusher'
 require 'ostruct'
 require './s3'
@@ -17,9 +18,12 @@ class Tweet < OpenStruct
   # From Twitter
   def self.from_twitter(status)
     new.tap do |tweet|
-      tweet.text = status.attrs[:text]
+      tweet.text       = status.attrs[:text]
+      tweet.tweet_id   = status.attrs[:id]
 
       tweet.upload_image(tweet.get_image)
+
+      tweet.push_to_redis
 
       #tweet.user_id       = status.user.attrs[:id_str]
       #tweet.user_nickname = status.user.attrs[:screen_name]
@@ -35,8 +39,18 @@ class Tweet < OpenStruct
     @redis ||= Redis.connect :url => ENV['REDISTOGO_URL']
   end
 
+  def push_to_redis
+    redis.lpush list_key, self.tweet_id
+    redis.ltrim list_key, 0, 999
+    p redis.lrange list_key, 0, 10
+  end
+
+  def list_key
+    "nolatw:tweets"
+  end
+
   def to_json
-    { :text => self.text }.to_json
+    { :id => self.tweet_id, :text => self.text }.to_json
   end
 
   # Push Tweet
