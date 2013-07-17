@@ -1,7 +1,9 @@
-require 'rubygems'
+require './.env'
+require 'bundler/setup'
 require 'sinatra'
 require 'sinatra/reloader' if development?
 require 'haml'
+require 'redis'
 require 'sass'
 require 'compass'
 require 'coffee-script'
@@ -19,16 +21,29 @@ configure do
   set :sass, Compass.sass_engine_options
 end
 
+helpers do
+  def redis
+    @redis ||= Redis.connect :url => ENV['REDISTOGO_URL']
+  end
+
+  def asset(path)
+    ENV['ASSET_HOST'] + "/" + path
+  end
+end
+
+
+
 get '/' do
-	redirect '/eets'
+  redirect '/eets'
 end
 
 get '/eets' do
+  @tweets = redis.lrange "nolatw:tweets", 0, 10
   haml :index
 end
 
 get '/meme.jpg::copy' do
-	content_type 'image/jpg'
+  content_type 'image/jpg'
 
   searcher = ImageSearcher.new()
   splitter = StringSplitter.new()
@@ -51,7 +66,7 @@ get '/meme.jpg::copy' do
   memeText = splitter.no_hashes(params[:copy])
   i = MemeCaptain.meme_top_bottom(file, splitter.left(memeText), splitter.right(memeText))
   i.to_blob
-  
+
 end
 
 get '/app.css' do
